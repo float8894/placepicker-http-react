@@ -24,7 +24,7 @@ export async function updateUserPlaces(places) {
   return response;
 }
 
-export async function getUserPlaces() {
+export async function fetchUserPlaces() {
   const query = await fetch('http://localhost:3000/user-places');
   const { places } = await query.json();
   if (!query.ok) {
