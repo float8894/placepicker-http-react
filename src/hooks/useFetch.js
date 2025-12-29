@@ -17,5 +17,5 @@ export function useFetch(fetchFn, initialValue) {
       }
     };
   }, [fetchFn]);
-  return { isFetching, error, fetchedData };
+  return { isFetching, error, setFetchedData, fetchedData };
 }

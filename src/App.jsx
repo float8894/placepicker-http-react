@@ -19,6 +19,7 @@ function App() {
     isFetching,
     error,
     fetchedData: userPlaces,
+    setFetchedData: setUserPlaces,
   } = useFetch(fetchUserPlaces, []);
 
   function handleStartRemovePlace(place) {
@@ -34,15 +35,15 @@ function App() {
     (async () => {
       try {
         await updateUserPlaces([selectedPlace, ...userPlaces]);
-        // setUserPlaces((prevPickedPlaces) => {
-        //   if (!prevPickedPlaces) {
-        //     prevPickedPlaces = [];
-        //   }
-        //   if (prevPickedPlaces.some((place) => place.id === selectedPlace.id)) {
-        //     return prevPickedPlaces;
-        //   }
-        //   return [selectedPlace, ...prevPickedPlaces];
-        // });
+        setUserPlaces((prevPickedPlaces) => {
+          if (!prevPickedPlaces) {
+            prevPickedPlaces = [];
+          }
+          if (prevPickedPlaces.some((place) => place.id === selectedPlace.id)) {
+            return prevPickedPlaces;
+          }
+          return [selectedPlace, ...prevPickedPlaces];
+        });
       } catch (error) {
         setErrorUpdatingPlaces({
           message: error.message || 'Failed to update user places.',
@@ -58,11 +59,11 @@ function App() {
           userPlaces.filter((place) => place.id !== selectedPlace.current.id)
         );
 
-        // setUserPlaces((prevPickedPlaces) =>
-        //   prevPickedPlaces.filter(
-        //     (place) => place.id !== selectedPlace.current.id
-        //   )
-        // );
+        setUserPlaces((prevPickedPlaces) =>
+          prevPickedPlaces.filter(
+            (place) => place.id !== selectedPlace.current.id
+          )
+        );
 
         setModalIsOpen(false);
       } catch (error) {
@@ -71,7 +72,7 @@ function App() {
         });
       }
     },
-    [userPlaces]
+    [userPlaces, setUserPlaces]
   );
 
   function handleError() {
